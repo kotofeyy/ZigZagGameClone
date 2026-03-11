@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://casl0wkxjb27v"]
+
+[ext_resource type="Texture2D" uid="uid://bou4b8t1cichr" path="res://sprites/chat_gpt_v_2.png" id="1_l6vx6"]
+[ext_resource type="Script" uid="uid://bbsq2g4lhl0a8" path="res://code/cube.gd" id="2_ibqtr"]
+
+[node name="ChatGptNoBackground" type="Sprite2D" unique_id=92489000]
+position = Vector2(1, 0)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_l6vx6")
+script = ExtResource("2_ibqtr")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=425982364]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=509357178]
+polygon = PackedVector2Array(9.999999, -239.99997, 384.99997, -454.99997, -19.999998, -644.99994, -369.99997, -469.99997)
