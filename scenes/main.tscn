@@ -34,5 +34,37 @@ texture = ExtResource("1_o5qli")
 scale = Vector2(6.405, 6.405)
 shape = SubResource("RectangleShape2D_0wfyh")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1293692744]
+
+[node name="StartGame" type="Button" parent="CanvasLayer" unique_id=89447129]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Нажмите, чтобы начать"
+
+[node name="LabelScore" type="Label" parent="CanvasLayer" unique_id=1833668018]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 50.0
+offset_right = 20.0
+offset_bottom = 105.00003
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+
 [connection signal="area_entered" from="Player/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Player/Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="pressed" from="CanvasLayer/StartGame" to="." method="_on_start_game_pressed"]

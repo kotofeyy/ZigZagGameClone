@@ -2,11 +2,15 @@ extends Node2D
 
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var player: Sprite2D = $Player
-@onready var timer: Timer = $Timer
+@onready var start_game_button: Button = $CanvasLayer/StartGame
+@onready var label_score: Label = $CanvasLayer/LabelScore
 
 const cube_v_1_preload = preload("uid://casl0wkxjb27v")
 
 var game_is_cuntinue = true
+var game_is_started = false
+var score = 0
+var tiles_under_player = 0
 # для движения враво по x + 71, по y - 37
 # для движения влево по x - 76, по y - 34
 
@@ -17,19 +21,26 @@ var dir_left  = Vector2(-76, -37).normalized()
 
 var move_dir = dir_right
 var speed = 140
+var max_speed = 600
+var acceleration = 5
 
-var variant = "v2"
+var variant
 
 func _ready() -> void:
-	init_spawn_cubes()
+	start_game()
 
 
 func _process(delta: float) -> void:
-	if game_is_cuntinue:
-		camera_2d.position.y -= 70 * delta
-		player.position += move_dir * speed * delta
-	else:
-		player.position.y += 100 * delta
+	if tiles_under_player <= 0:
+		game_is_cuntinue = false
+	if game_is_started:
+		if game_is_cuntinue:
+			camera_2d.position = camera_2d.position.lerp(player.position, 3 * delta)
+			
+			speed = min(speed + acceleration * delta, max_speed)
+			player.position += move_dir * speed * delta
+		else:
+			player.position.y += 100 * delta
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -38,6 +49,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			move_dir = dir_left
 		else:
 			move_dir = dir_right
+
+
+func start_game() -> void:
+	score = 0
+	variant = ["v1", "v2"].pick_random()
+	init_spawn_cubes()
 
 
 func init_spawn_cubes() -> void:
@@ -49,7 +66,7 @@ func init_spawn_cubes() -> void:
 	cube_v_1_original.position = current_pos
 	cube_v_1_original.variant = variant
 	add_child(cube_v_1_original)
-	for i in range(1,63):
+	for i in range(1,163):
 		var cube: Cube = cube_v_1_preload.instantiate()
 		cube.variant = variant
 		if direction == 1:
@@ -73,14 +90,16 @@ func init_spawn_cubes() -> void:
 		add_child(cube)
 
 
-
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	timer.stop()
+	tiles_under_player += 1
+	score += 1
+	label_score.text = str(score)
 
 
 func _on_area_2d_area_exited(area: Area2D) -> void:
-	timer.start()
+	tiles_under_player -= 1
 
 
-func _on_timer_timeout() -> void:
-	game_is_cuntinue = false
+func _on_start_game_pressed() -> void:
+	game_is_started = true
+	start_game_button.visible = false
