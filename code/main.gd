@@ -1,8 +1,10 @@
 extends Node2D
 
+@onready var cubes: Node2D = $Cubes
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var player: Sprite2D = $Player
 @onready var start_game_button: Button = $CanvasLayer/StartGame
+@onready var restart_game: Button = $CanvasLayer/RestartGame
 @onready var label_score: Label = $CanvasLayer/LabelScore
 
 const cube_v_1_preload = preload("uid://casl0wkxjb27v")
@@ -24,23 +26,27 @@ var speed = 140
 var max_speed = 600
 var acceleration = 5
 
+var grace_time = 0.2
+var grace_timer = 0
+
 var variant
 
 func _ready() -> void:
-	start_game()
+	restart_game.visible = false
 
 
 func _process(delta: float) -> void:
-	if tiles_under_player <= 0:
-		game_is_cuntinue = false
-	if game_is_started:
-		if game_is_cuntinue:
-			camera_2d.position = camera_2d.position.lerp(player.position, 3 * delta)
+	
+	if !game_is_started:
+		return
+	grace_timer -= delta
+	if grace_timer <= 0 and tiles_under_player <= 0:
+		end_game()
+	if game_is_cuntinue:
+		camera_2d.position = camera_2d.position.lerp(player.position, 3 * delta)
 			
-			speed = min(speed + acceleration * delta, max_speed)
-			player.position += move_dir * speed * delta
-		else:
-			player.position.y += 100 * delta
+		speed = min(speed + acceleration * delta, max_speed)
+		player.position += move_dir * speed * delta
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -53,8 +59,17 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func start_game() -> void:
 	score = 0
+	speed = 140
+	tiles_under_player = 0
+	grace_timer = grace_time
 	variant = ["v1", "v2"].pick_random()
+	restart_game.visible = false
+	clear_cubes()
 	init_spawn_cubes()
+	game_is_started = true
+	player.position = Vector2(640, 260)
+	camera_2d.position = player.position
+	move_dir = dir_right
 
 
 func init_spawn_cubes() -> void:
@@ -65,8 +80,8 @@ func init_spawn_cubes() -> void:
 	var cube_v_1_original: Sprite2D = cube_v_1_preload.instantiate()
 	cube_v_1_original.position = current_pos
 	cube_v_1_original.variant = variant
-	add_child(cube_v_1_original)
-	for i in range(1,163):
+	cubes.add_child(cube_v_1_original)
+	for i in range(1,1163):
 		var cube: Cube = cube_v_1_preload.instantiate()
 		cube.variant = variant
 		if direction == 1:
@@ -87,19 +102,36 @@ func init_spawn_cubes() -> void:
 		
 		cube.z_index = -i
 
-		add_child(cube)
+		cubes.add_child(cube)
+
+
+func clear_cubes() -> void:
+	var children = cubes.get_children()
+	for child in children:
+		child.queue_free()
+
+
+func end_game() -> void:
+	game_is_started = false
+	restart_game.visible = true
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	tiles_under_player += 1
-	score += 1
-	label_score.text = str(score)
+	if game_is_started:
+		tiles_under_player += 1
+		score += 1
+		label_score.text = str(score)
 
 
 func _on_area_2d_area_exited(area: Area2D) -> void:
-	tiles_under_player -= 1
+	if game_is_started:
+		tiles_under_player -= 1
 
 
 func _on_start_game_pressed() -> void:
-	game_is_started = true
 	start_game_button.visible = false
+	start_game()
+
+
+func _on_restart_game_pressed() -> void:
+	start_game()

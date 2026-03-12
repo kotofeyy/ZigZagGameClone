@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cr7eop2nvu6c1"]
 
 [ext_resource type="Script" uid="uid://dsubcxbhqsnvd" path="res://code/main.gd" id="1_0wfyh"]
-[ext_resource type="Texture2D" uid="uid://d31uoqywmf0ku" path="res://icon.svg" id="1_o5qli"]
+[ext_resource type="Texture2D" uid="uid://b06kb7d0j3upu" path="res://sprites/ball.png" id="2_0wfyh"]
 
 [sub_resource type="Gradient" id="Gradient_0wfyh"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -25,8 +25,8 @@ texture = SubResource("GradientTexture2D_sugp2")
 [node name="Player" type="Sprite2D" parent="." unique_id=1446946467]
 z_index = 1
 position = Vector2(640, 260)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_o5qli")
+scale = Vector2(0.09, 0.09)
+texture = ExtResource("2_0wfyh")
 
 [node name="Area2D" type="Area2D" parent="Player" unique_id=1435460535]
 
@@ -65,6 +65,25 @@ theme_override_font_sizes/font_size = 40
 text = "0"
 horizontal_alignment = 1
 
+[node name="RestartGame" type="Button" parent="CanvasLayer" unique_id=1863281250]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -59.0
+offset_top = -25.0
+offset_right = 59.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Заново"
+
+[node name="Cubes" type="Node2D" parent="." unique_id=1736172791]
+
 [connection signal="area_entered" from="Player/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Player/Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="pressed" from="CanvasLayer/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="CanvasLayer/RestartGame" to="." method="_on_restart_game_pressed"]
