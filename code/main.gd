@@ -13,8 +13,6 @@ var game_is_cuntinue = true
 var game_is_started = false
 var score = 0
 var tiles_under_player = 0
-# для движения враво по x + 71, по y - 37
-# для движения влево по x - 76, по y - 34
 
 var start_coordinates: Vector2 = Vector2(640, 360)
 
@@ -30,13 +28,16 @@ var grace_time = 0.2
 var grace_timer = 0
 
 var variant
+var is_first_game
+
 
 func _ready() -> void:
+	is_first_game = true
 	restart_game.visible = false
+	init_spawn_cubes()
 
 
 func _process(delta: float) -> void:
-	
 	if !game_is_started:
 		return
 	grace_timer -= delta
@@ -44,7 +45,7 @@ func _process(delta: float) -> void:
 		end_game()
 	if game_is_cuntinue:
 		camera_2d.position = camera_2d.position.lerp(player.position, 3 * delta)
-			
+
 		speed = min(speed + acceleration * delta, max_speed)
 		player.position += move_dir * speed * delta
 
@@ -60,12 +61,15 @@ func _unhandled_input(event: InputEvent) -> void:
 func start_game() -> void:
 	score = 0
 	speed = 140
-	tiles_under_player = 0
+	tiles_under_player = 1
 	grace_timer = grace_time
 	variant = ["v1", "v2"].pick_random()
 	restart_game.visible = false
-	clear_cubes()
-	init_spawn_cubes()
+	if !is_first_game:
+		tiles_under_player = 0
+		clear_cubes()
+		init_spawn_cubes()
+	is_first_game = false
 	game_is_started = true
 	player.position = Vector2(640, 260)
 	camera_2d.position = player.position
@@ -112,6 +116,7 @@ func clear_cubes() -> void:
 
 
 func end_game() -> void:
+	
 	game_is_started = false
 	restart_game.visible = true
 
@@ -125,7 +130,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 func _on_area_2d_area_exited(area: Area2D) -> void:
 	if game_is_started:
-		tiles_under_player -= 1
+		tiles_under_player = max(tiles_under_player - 1, 0)
 
 
 func _on_start_game_pressed() -> void:
