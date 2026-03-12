@@ -4,14 +4,18 @@ extends Node2D
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var player: Sprite2D = $Player
 @onready var start_game_button: Button = $CanvasLayer/StartGame
-@onready var restart_game: Button = $CanvasLayer/RestartGame
 @onready var label_score: Label = $CanvasLayer/LabelScore
+@onready var label_last_score: Label = $CanvasLayer/GameOverPanel/MarginContainer/VBoxContainer/LabelLastScore
+@onready var label_record_score: Label = $CanvasLayer/GameOverPanel/MarginContainer/VBoxContainer/LabelRecordScore
+@onready var game_over_panel: Panel = $CanvasLayer/GameOverPanel
+
 
 const cube_v_1_preload = preload("uid://casl0wkxjb27v")
 
 var game_is_cuntinue = true
 var game_is_started = false
 var score = 0
+var record_score = 0
 var tiles_under_player = 0
 
 var start_coordinates: Vector2 = Vector2(640, 360)
@@ -33,7 +37,7 @@ var is_first_game
 
 func _ready() -> void:
 	is_first_game = true
-	restart_game.visible = false
+	game_over_panel.visible = false
 	init_spawn_cubes()
 
 
@@ -61,12 +65,11 @@ func _unhandled_input(event: InputEvent) -> void:
 func start_game() -> void:
 	score = 0
 	speed = 140
-	tiles_under_player = 1
+	tiles_under_player = 0
 	grace_timer = grace_time
 	variant = ["v1", "v2"].pick_random()
-	restart_game.visible = false
+	game_over_panel.visible = false
 	if !is_first_game:
-		tiles_under_player = 0
 		clear_cubes()
 		init_spawn_cubes()
 	is_first_game = false
@@ -85,7 +88,7 @@ func init_spawn_cubes() -> void:
 	cube_v_1_original.position = current_pos
 	cube_v_1_original.variant = variant
 	cubes.add_child(cube_v_1_original)
-	for i in range(1,1163):
+	for i in range(1,2163):
 		var cube: Cube = cube_v_1_preload.instantiate()
 		cube.variant = variant
 		if direction == 1:
@@ -116,15 +119,19 @@ func clear_cubes() -> void:
 
 
 func end_game() -> void:
-	
 	game_is_started = false
-	restart_game.visible = true
+	label_last_score.text = "Очки: " + str(score)
+
+	label_record_score.text = "Рекорд: " + str(record_score)
+	game_over_panel.visible = true
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if game_is_started:
 		tiles_under_player += 1
 		score += 1
+		if record_score < score:
+			record_score = score
 		label_score.text = str(score)
 
 

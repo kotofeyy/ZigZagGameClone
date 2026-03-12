@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://bbsq2g4lhl0a8" path="res://code/cube.gd" id="2_ibqtr"]
 
 [node name="ChatGptNoBackground" type="Sprite2D" unique_id=92489000]
-position = Vector2(1, 0)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_l6vx6")
 script = ExtResource("2_ibqtr")
@@ -13,3 +12,6 @@ script = ExtResource("2_ibqtr")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=509357178]
 polygon = PackedVector2Array(9.999999, -239.99997, 384.99997, -454.99997, -19.999998, -644.99994, -369.99997, -469.99997)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=288396051]
+rect = Rect2(-354.99997, -599.99994, 714.99994, 1139.9999)

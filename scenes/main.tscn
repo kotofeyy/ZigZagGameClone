@@ -11,6 +11,67 @@ gradient = SubResource("Gradient_0wfyh")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0wfyh"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tefeu"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0.08627451, 0.6745098, 0.7607843, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tipki"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0.1974642, 0.8460303, 0.9483051, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6xl0"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0.1974642, 0.8460303, 0.9483051, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0wfyh"]
+bg_color = Color(0.08810299, 0.6729626, 0.7595582, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sugp2"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbgi4"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jyhfs"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [node name="Main" type="Node2D" unique_id=319494226]
 script = ExtResource("1_0wfyh")
 
@@ -48,7 +109,13 @@ offset_right = 4.0
 offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_tefeu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tipki")
+theme_override_styles/hover = SubResource("StyleBoxFlat_o6xl0")
 text = "Нажмите, чтобы начать"
 
 [node name="LabelScore" type="Label" parent="CanvasLayer" unique_id=1833668018]
@@ -65,20 +132,59 @@ theme_override_font_sizes/font_size = 40
 text = "0"
 horizontal_alignment = 1
 
-[node name="RestartGame" type="Button" parent="CanvasLayer" unique_id=1863281250]
+[node name="GameOverPanel" type="Panel" parent="CanvasLayer" unique_id=364194076]
 visible = false
+custom_minimum_size = Vector2(200, 200)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -59.0
-offset_top = -25.0
-offset_right = 59.0
-offset_bottom = 25.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0wfyh")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GameOverPanel" unique_id=216861887]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameOverPanel/MarginContainer" unique_id=989724102]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="LabelLastScore" type="Label" parent="CanvasLayer/GameOverPanel/MarginContainer/VBoxContainer" unique_id=28656597]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Очки:"
+horizontal_alignment = 1
+
+[node name="LabelRecordScore" type="Label" parent="CanvasLayer/GameOverPanel/MarginContainer/VBoxContainer" unique_id=2000038702]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Рекорд:"
+horizontal_alignment = 1
+
+[node name="RestartGame" type="Button" parent="CanvasLayer/GameOverPanel/MarginContainer/VBoxContainer" unique_id=1863281250]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_sugp2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tbgi4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jyhfs")
 text = "Заново"
 
 [node name="Cubes" type="Node2D" parent="." unique_id=1736172791]
@@ -86,4 +192,4 @@ text = "Заново"
 [connection signal="area_entered" from="Player/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Player/Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="pressed" from="CanvasLayer/StartGame" to="." method="_on_start_game_pressed"]
-[connection signal="pressed" from="CanvasLayer/RestartGame" to="." method="_on_restart_game_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameOverPanel/MarginContainer/VBoxContainer/RestartGame" to="." method="_on_restart_game_pressed"]
