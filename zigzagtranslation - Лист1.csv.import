@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cbt64xtqal7pn"
+
+[deps]
+
+files=["res://zigzagtranslation - Лист1.en.translation", "res://zigzagtranslation - Лист1.ru.translation"]
+
+source_file="res://zigzagtranslation - Лист1.csv"
+dest_files=["res://zigzagtranslation - Лист1.en.translation", "res://zigzagtranslation - Лист1.ru.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

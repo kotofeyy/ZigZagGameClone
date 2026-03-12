@@ -15,12 +15,24 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Bridge="*uid://cx4klxojbw6ck"
+
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/playgama_bridge/plugin.cfg")
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://zigzagtranslation - Лист1.en.translation", "res://zigzagtranslation - Лист1.ru.translation")
 
 [physics]
 

@@ -63,6 +63,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func start_game() -> void:
+	get_data()
 	score = 0
 	speed = 140
 	tiles_under_player = 0
@@ -119,14 +120,15 @@ func clear_cubes() -> void:
 
 
 func end_game() -> void:
+	save_data()
 	game_is_started = false
-	label_last_score.text = "Очки: " + str(score)
+	label_last_score.text = tr("KEY_SCORE") + ": " + str(score)
 
-	label_record_score.text = "Рекорд: " + str(record_score)
+	label_record_score.text = tr("KEY_RECORD") + ": " + str(record_score)
 	game_over_panel.visible = true
 
 
-func _on_area_2d_area_entered(area: Area2D) -> void:
+func _on_area_2d_area_entered(_area: Area2D) -> void:
 	if game_is_started:
 		tiles_under_player += 1
 		score += 1
@@ -135,7 +137,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		label_score.text = str(score)
 
 
-func _on_area_2d_area_exited(area: Area2D) -> void:
+func _on_area_2d_area_exited(_area: Area2D) -> void:
 	if game_is_started:
 		tiles_under_player = max(tiles_under_player - 1, 0)
 
@@ -147,3 +149,31 @@ func _on_start_game_pressed() -> void:
 
 func _on_restart_game_pressed() -> void:
 	start_game()
+
+
+func save_data() -> void:
+	if Bridge.storage.is_supported("platform_internal"):
+		if Bridge.storage.is_available("platform_internal"):
+			Bridge.storage.set(["record_score"], [record_score], Callable(self, "_on_storage_set_completed"))
+
+
+func get_data() -> void:
+	if Bridge.storage.is_supported("platform_internal"):
+		if Bridge.storage.is_available("platform_internal"):
+			Bridge.storage.get(["record_score"], Callable(self, "_on_storage_get_completed"))
+
+
+func _on_storage_get_completed(success, data) -> void:
+	if success:
+		if data[0] != null: record_score = data[0]
+		else:
+			record_score = 0
+	else:
+		record_score = 0
+
+
+func _on_storage_set_completed(success) -> void:
+	if success:
+		print("Данные успешно сохранены")
+	else:
+		print("Ошибка сохранения")

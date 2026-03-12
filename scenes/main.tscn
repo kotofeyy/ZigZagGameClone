@@ -116,7 +116,7 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_tefeu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_tipki")
 theme_override_styles/hover = SubResource("StyleBoxFlat_o6xl0")
-text = "Нажмите, чтобы начать"
+text = "KEY_START"
 
 [node name="LabelScore" type="Label" parent="CanvasLayer" unique_id=1833668018]
 anchors_preset = 5
@@ -185,7 +185,7 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_sugp2")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_tbgi4")
 theme_override_styles/hover = SubResource("StyleBoxFlat_jyhfs")
-text = "Заново"
+text = "KEY_RELOAD"
 
 [node name="Cubes" type="Node2D" parent="." unique_id=1736172791]
 
