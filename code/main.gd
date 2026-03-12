@@ -36,6 +36,10 @@ var is_first_game
 
 
 func _ready() -> void:
+	Bridge.platform.send_message("game_ready")
+	var language = Bridge.platform.language
+	TranslationServer.set_locale(language)
+	Bridge.advertisement.set_minimum_delay_between_interstitial(65)
 	is_first_game = true
 	game_over_panel.visible = false
 	init_spawn_cubes()
@@ -126,6 +130,7 @@ func end_game() -> void:
 
 	label_record_score.text = tr("KEY_RECORD") + ": " + str(record_score)
 	game_over_panel.visible = true
+	Bridge.advertisement.show_interstitial()
 
 
 func _on_area_2d_area_entered(_area: Area2D) -> void:
@@ -166,8 +171,7 @@ func get_data() -> void:
 func _on_storage_get_completed(success, data) -> void:
 	if success:
 		if data[0] != null: record_score = data[0]
-		else:
-			record_score = 0
+		else: record_score = 0
 	else:
 		record_score = 0
 
